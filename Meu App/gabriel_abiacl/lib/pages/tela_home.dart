@@ -1,21 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gabriel_abiacl/widgets/card_icone.dart';
+import 'package:gabriel_abiacl/pages/tela_perfil.dart';
+import 'package:gabriel_abiacl/pages/tela_configuracoes.dart';
+import 'package:gabriel_abiacl/pages/tela_favoritos.dart';
+import 'package:gabriel_abiacl/pages/tela_mensagens.dart';
 
-class TelaHome extends StatefulWidget {
+class TelaHome extends StatelessWidget {
   const TelaHome({super.key});
-
-  @override
-  State<TelaHome> createState() => _TelaHomeState();
-}
-
-class _TelaHomeState extends State<TelaHome> {
-  String _mensagem = 'Toque em um card ou no botão flutuante.';
-
-  void _atualizarMensagem(String mensagem) {
-    setState(() {
-      _mensagem = mensagem;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,33 +19,18 @@ class _TelaHomeState extends State<TelaHome> {
         child: Column(
           children: [
             const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(14),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  _mensagem,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 8),
             CardIcone(
               icone: Icons.person,
               titulo: 'Perfil',
               descricao: 'Veja e edite suas informações pessoais.',
               textoBotao: 'Abrir Perfil',
               cor: Colors.blue,
-              onPressed: () => _atualizarMensagem('Você clicou em Perfil'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaPerfil()),
+                );
+              },
             ),
             CardIcone(
               icone: Icons.settings,
@@ -62,8 +38,13 @@ class _TelaHomeState extends State<TelaHome> {
               descricao: 'Ajuste preferências e opções do aplicativo.',
               textoBotao: 'Abrir Configurações',
               cor: Colors.grey,
-              onPressed: () =>
-                  _atualizarMensagem('Você clicou em Configurações'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaConfiguracoes()),
+                );
+              },
             ),
             CardIcone(
               icone: Icons.favorite,
@@ -71,7 +52,13 @@ class _TelaHomeState extends State<TelaHome> {
               descricao: 'Acesse os itens que você marcou como favoritos.',
               textoBotao: 'Ver Favoritos',
               cor: Colors.red,
-              onPressed: () => _atualizarMensagem('Você clicou em Favoritos'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaFavoritos()),
+                );
+              },
             ),
             CardIcone(
               icone: Icons.message,
@@ -79,7 +66,13 @@ class _TelaHomeState extends State<TelaHome> {
               descricao: 'Leia e envie mensagens para seus contatos.',
               textoBotao: 'Ver Mensagens',
               cor: Colors.green,
-              onPressed: () => _atualizarMensagem('Você clicou em Mensagens'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TelaMensagens()),
+                );
+              },
             ),
             CardIcone(
               icone: Icons.help_outline,
@@ -87,16 +80,34 @@ class _TelaHomeState extends State<TelaHome> {
               descricao: 'Encontre respostas e suporte quando precisar.',
               textoBotao: 'Obter Ajuda',
               cor: Colors.orange,
-              onPressed: () => _atualizarMensagem('Você clicou em Ajuda'),
-            ),
-            CardIcone(
-              icone: Icons.notifications,
-              titulo: 'Notificações',
-              descricao: 'Confira alertas e avisos recentes.',
-              textoBotao: 'Ver Notificações',
-              cor: Colors.purple,
-              onPressed: () =>
-                  _atualizarMensagem('Você clicou em Notificações'),
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      padding: const EdgeInsets.all(20),
+                      height: 200,
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Ajuda',
+                            style: TextStyle(fontSize: 22),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text('Entre em contato pelo e-mail suporte@app.com.'),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Fechar'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
             ),
             const SizedBox(height: 24),
             Text(
@@ -110,13 +121,6 @@ class _TelaHomeState extends State<TelaHome> {
             const SizedBox(height: 24),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _atualizarMensagem(
-          'Você clicou no botão flutuante!',
-        ),
-        tooltip: 'Mensagem rápida',
-        child: const Icon(Icons.touch_app),
       ),
     );
   }
